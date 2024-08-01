@@ -1,8 +1,8 @@
 import NewProject from "./components/NewProject";
 import ProjectsSidebar from "./components/ProjectsSidebar";
-import NoProjectSelected from "./components/NoProjectSelected";
+import NoProjectSelected from "./components/NoProjectSelected/NoProjectSelected";
 import { useState } from "react";
-import SelectedProject from "./components/SelectedProject";
+import SelectedProject from "./components/SelectedProject/SelectedProject";
 
 function App() {
 

@@ -1,4 +1,4 @@
-import NewTask from "./NewTask";
+import NewTask from "./NewTask/NewTask";
 
 const Tasks = ({tasks, onAdd, onDelete}) => {
     return (
