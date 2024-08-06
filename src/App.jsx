@@ -1,7 +1,9 @@
+import { useState } from "react";
+import { ProjectStateContext } from "./store/project-state-context";
+
 import NewProject from "./components/NewProject/NewProject";
 import ProjectsSidebar from "./components/ProjectSideBar/ProjectsSidebar";
 import NoProjectSelected from "./components/NoProjectSelected/NoProjectSelected";
-import { useState } from "react";
 import SelectedProject from "./components/SelectedProject/SelectedProject";
 
 function App() {
@@ -99,30 +101,36 @@ function App() {
 
   const selectedProject = projectsState.projects.find(project => project.id === projectsState.selectedProjectsId)
 
-  let content = (
-    <SelectedProject 
-      project={selectedProject} 
-      onDelete={handleDeleteProject} 
-      onAddTask={handleAddTask} 
-      onDeleteTask={handleDeleteTask}
-      tasks={projectsState.tasks} />
-  );
+
+  let content = <SelectedProject />;
 
   if(projectsState.selectedProjectsId === null) {
-    content = <NewProject onAdd={handleAddProjects} onCancel={handleCancelAddProject} />;
+    content = <NewProject />;
   }
   else if(projectsState.selectedProjectsId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
+    content = <NoProjectSelected />;
+  }
+
+  const projectStateCtx = {
+    selectedProjectsId: projectsState.selectedProjectsId,
+    projects: projectsState.projects,
+    tasks: projectsState.tasks,
+    selectedProject: selectedProject,
+    addTask: handleAddTask,
+    deleteTask: handleDeleteTask,
+    selectProject: handleSelectProject,
+    startAddProject: handleStartAddProject,
+    cancelAddProject: handleCancelAddProject,
+    addProject: handleAddProjects,
+    deleteProject: handleDeleteProject
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectsSidebar 
-        onStartAddProject={handleStartAddProject} 
-        projects={projectsState.projects}
-        onSelectProject={handleSelectProject}
-      />
-      {content}
+      <ProjectStateContext.Provider value={projectStateCtx}>
+        <ProjectsSidebar />
+        {content}
+      </ProjectStateContext.Provider>
     </main>
   );
 }

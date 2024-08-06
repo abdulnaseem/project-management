@@ -1,8 +1,11 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import { ProjectStateContext } from "../../store/project-state-context";
 import Input from "../Input";
 import Modal from "../Modal";
 
-const NewProject = ({onAdd, onCancel}) => {
+const NewProject = () => {
+    const { addProject, cancelAddProject } = useContext(ProjectStateContext);
+
     const modal = useRef();
     
     const titleRef = useRef(); //retrieve value of input without managing state
@@ -24,7 +27,7 @@ const NewProject = ({onAdd, onCancel}) => {
             //onAdd will NOT be executed
         }
 
-        onAdd({
+        addProject({
             title: enteredTitle,
             description: enteredDesc,
             dueDate: enteredDD
@@ -40,7 +43,7 @@ const NewProject = ({onAdd, onCancel}) => {
             <div className="w-[35rem] mt-16">
                 <menu className="flex items-center justify-end gap-4 my-4">
                     <li>
-                        <button onClick={onCancel} className="text-stone-800 hover:text-stone-950">Cancel</button>
+                        <button onClick={cancelAddProject} className="text-stone-800 hover:text-stone-950">Cancel</button>
                     </li>
                     <li>
                         <button onClick={handleSave} className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950">Save</button>
